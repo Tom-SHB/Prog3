@@ -1,4 +1,5 @@
 var NewCord= require("./NewCord");
+var random = require("./random.js");
 
 module.exports = class Demon extends NewCord{
     constructor(x, y, index){
@@ -29,7 +30,7 @@ module.exports = class Demon extends NewCord{
         if (newCell && this.energy >= 12) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[newY][newX] = 5;
+            matrix[newY][newX] = 4;
             demon.push(new Demon(newX, newY));
             this.energy = 10;
         }
@@ -41,7 +42,7 @@ module.exports = class Demon extends NewCord{
         if (newCell && this.energy >= 12) {
             var nX = newCell[0];
             var nY = newCell[1];
-            matrix[nY][nX] = 5;
+            matrix[nY][nX] = 4;
             demon.push(new Demon(nX, nY));
             this.energy = 10;
         }
@@ -53,7 +54,7 @@ module.exports = class Demon extends NewCord{
         if (newCell && this.energy >= 12) {
             var neX = newCell[0];
             var neY = newCell[1];
-            matrix[neY][neX] = 5;
+            matrix[neY][neX] = 4;
             demon.push(new Demon(neX, neY));
             this.energy = 10;
         }
@@ -66,7 +67,7 @@ module.exports = class Demon extends NewCord{
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[newY][newX] = 5;
+            matrix[newY][newX] = 4;
 
             matrix[this.y][this.x] = 0;
 
@@ -86,7 +87,7 @@ module.exports = class Demon extends NewCord{
         if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
-            matrix[newY][newX] = 5;
+            matrix[newY][newX] = 4;
             matrix[this.y][this.x] = 0;
 
             this.x = newX;
@@ -114,7 +115,7 @@ module.exports = class Demon extends NewCord{
         if (newCell2) {
             var nX = newCell2[0];
             var nY = newCell2[1];
-            matrix[nY][nX] = 5;
+            matrix[nY][nX] = 4;
             matrix[this.y][this.x] = 0;
 
             this.x = nX;
@@ -142,7 +143,7 @@ module.exports = class Demon extends NewCord{
         if (newCell3) {
             var neX = newCell3[0];
             var neY = newCell3[1];
-            matrix[neY][neX] = 5;
+            matrix[neY][neX] = 4;
             matrix[this.y][this.x] = 0;
 
             this.x = neX;

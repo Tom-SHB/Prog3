@@ -1,4 +1,4 @@
-class NewCord {
+module.exports = class NewCord {
     constructor(x, y, index) {
         this.x = x;
         this.y = y;

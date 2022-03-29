@@ -1,4 +1,5 @@
 var NewCord= require("./NewCord");
+var random = require("./random.js");
 
 module.exports = class GrassEat extends NewCord {
     constructor(x, y, index){
