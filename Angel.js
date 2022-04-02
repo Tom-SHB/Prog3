@@ -32,23 +32,10 @@ module.exports = class Angel extends NewCord {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 3;
-            angel.push(new Angel(newX, newY));
+            angelarr.push(new Angel(newX, newY));
             this.energy = 8;
         }
     }
-    mul2() {
-        var found = this.chooseCell(0);
-        var newCell = random(found);
-
-        if (newCell && this.energy >= 12) {
-            var nX = newCell[0];
-            var nY = newCell[1];
-            matrix[nY][nX] = 4;
-            angel.push(new Angel(nX, nY));
-            this.energy = 8;
-        }
-    }
-
     move() {
         var found = this.chooseCell(0);
         var newCell = random(found);
@@ -71,7 +58,7 @@ module.exports = class Angel extends NewCord {
     }
 
     eat() {
-        var found = this.chooseCell(4);
+        var found = this.chooseCell(4,1);
 
         var newCell = random(found);
         if (newCell) {
@@ -100,35 +87,10 @@ module.exports = class Angel extends NewCord {
             this.move();
         }
     }
-    eat2() {
-        var found = this.chooseCell(1);
-        var newCell2 = random(found);
-        if (newCell2) {
-            var nX = newCell2[0];
-            var nY = newCell2[1];
-            matrix[nY][nX] = 4;
-            matrix[this.y][this.x] = 0;
-
-            this.x = nX;
-            this.y = nY;
-            this.energy++;
-
-            for (var i in grassArr) {
-                if (nX == grassArr[i].x && nY == grassArr[i].y) {
-                    grassArr.splice(i, 1);
-                    break;
-                }
-            }
-            if (this.energy >= 30) {
-                this.mul2();
-            }
-        }
-    }
-
     die() {
-        for (var i in angel) {
-            if (this.x == angel[i].x && this.y == angel[i].y) {
-                angel.splice(i, 1);
+        for (var i in angelarr) {
+            if (this.x == angelarr[i].x && this.y == angelarr[i].y) {
+                angelarr.splice(i, 1);
                 break;
             }
         }

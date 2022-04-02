@@ -5,15 +5,16 @@ var GrassEat = require("./GrassEat.js");
 var Angel = require("./Angel.js");
 var Demon = require("./Demon.js");
 let random = require('./random');
+var fs = require('fs');
 
 matrix = [];
 side = 50;
 grassArr = [];
 grassEatArr = [];
-angel = [];
-demon = [];
+angelarr = [];
+demonarr= [];
 
-function generator(grass1, grassEat1, matrixSize, angel1, demon1) {
+function generator(matrixSize, grass1, grassEat1, angel1, demon1) {
     for (let i = 0; i < matrixSize; i++) {
         matrix.push([]);
         for (let j = 0; j < matrixSize; j++) {
@@ -36,26 +37,27 @@ function generator(grass1, grassEat1, matrixSize, angel1, demon1) {
         const x = Math.round(Math.random() * (matrixSize - 1));
         const y = Math.round(Math.random() * (matrixSize - 1));
         matrix[y][x] = 3;
-        angel.push(new Angel(x, y));
+        angelarr.push(new Angel(x, y));
     }
     for (let i = 0; i < demon1; i++) {
         const x = Math.round(Math.random() * (matrixSize - 1));
         const y = Math.round(Math.random() * (matrixSize - 1));
         matrix[y][x] = 4;
-        demon.push(new Demon(x, y));
+        demonarr.push(new Demon(x, y));
     }
 }
-generator(20, 5, 25, 10,4);
-/* frameRate(5);
-let grass1 = document.getElementById("Grass");
-let grassEat1 = document.getElementById("GrassEater");
-let angel1 = document.getElementById("Angel");
-let demon1 = document.getElementById("Demon");
-let button = document.getElementById("button")
-button.onclick = function () {
-    generator(grass1.value, grassEat1.value, 25, angel1.value, demon1.value);
-    createCanvas(matrix[0].length * side, matrix.length * side);
-
+generator(25, 20, 5, 10, 4);
+/* function getnum() {
+    frameRate(5);
+    let grass1 = document.getElementById("Grass");
+    let grassEat1 = document.getElementById("GrassEater");
+    let angel1 = document.getElementById("Angel");
+    let demon1 = document.getElementById("Demon");
+    let button = document.getElementById("button")
+    button.onclick = function () {
+        generator(25,grass1.value, grassEat1.value, angel1.value, demon1.value);
+        createCanvas(matrix[0].length * side, matrix.length * side);
+    }
 } */
 function weather() {
     if (weath == "winter") {
@@ -83,7 +85,8 @@ app.get('/', function (req, res) {
     res.redirect('index.html');
 });
 
-server.listen(5000);
+server.listen(4000);
+
 function creatingObjects() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
@@ -95,12 +98,12 @@ function creatingObjects() {
                 grassArr.push(grass);
             }
             else if (matrix[y][x] == 3) {
-                var grass = new Angel(x, y);
-                grassArr.push(Angel);
+                var angel = new Angel(x, y);
+                angelarr.push(angel);
             }
             else if (matrix[y][x] == 4) {
-                var grass = new Demon(x, y);
-                grassArr.push(Demon);
+                var demon = new Demon(x, y);
+                demonarr.push(demon);
             }
         }
     }
@@ -109,24 +112,50 @@ creatingObjects();
 
 function game() {
     if (grassArr[0] !== undefined) {
-        if(weath != 'autumn') {
+        if (weath != 'autumn') {
             for (var i in grassArr) {
                 grassArr[i].mul();
             }
         }
-        
+
     }
     if (grassEatArr[0] !== undefined) {
         for (var i in grassEatArr) {
             grassEatArr[i].eat();
         }
     }
+    if (angelarr[0] !== undefined) {
+        for (var i in angelarr) {
+            angelarr[i].eat();
+        }
+    }
+    if (demonarr[0] !== undefined) {
+        for (var i in demonarr) {
+            demonarr[i].eat();
+        }
+    }
+
 
     let sendData = {
         matrix: matrix,
-        grassCounter: grassArr.length
+        grassCounter: grassArr.length,
+        grassEaterCount: grassEatArr.length,
+        DemonCount: demonarr.length,
+        AngelCount: angelarr.length
+
     }
 
     io.sockets.emit("data", sendData);
 }
 setInterval(game, 2000)
+
+var statistics = {};
+
+setInterval(function () {
+    statistics.grass = grassArr.length;
+    statistics.grassEat = grassEatArr.length;
+    statistics.angel = angelarr.length;
+    statistics.demon = demonarr.length;
+    fs.writeFile("statistics.json", JSON.stringify(statistics), function () {
+    })
+}, 1000)

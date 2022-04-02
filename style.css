@@ -16,9 +16,16 @@ h1{
     height: 75%;
     background-color: green;
     padding: 20px;
+
  
   }
+  .fontServ {
+    color: White;
+    font-size: 2em;
+    text-align: center
+  }
   .block2{
+    color: black;
     width: 75%;
     height: 75%;
     background-color: yellow;

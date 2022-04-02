@@ -1,29 +1,35 @@
-
 function setup() {
     var weath = 'winter'
     var socket = io();
 
-    var side = 30;
+    var side = 50;
 
     var matrix = [];
 
     let grassCountElement = document.getElementById('grassCount');
     let grassEaterCountElement = document.getElementById('grassEaterCount');
-    let DemonCountElement = document.getElementById('DemonCount');
     let AngelCountElement = document.getElementById('AngelCount');
+    let DemonCountElement = document.getElementById('DemonCount');
 
-    ocket.on("data", drawCreatures);
+
+    socket.on("data", drawGame);
     socket.on("weather", function (data) {
         weath = data;
     })
+    
 
 
-    function draw() {
-
+    function drawGame(data) {        
+        matrix = data.matrix;
+        grassCountElement.innerText = data.grassCounter;
+        grassEaterCountElement.innerText = data.grassEaterCount;
+        AngelCountElement.innerText = data.AngelCount;
+        DemonCountElement.innerText = data.DemonCount;
+        createCanvas(matrix[0].length*side,matrix.length*side)
         for (var y = 0; y < matrix.length; y++) {
             for (var x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 1) {
-                    if (matrix[i][j] == 1) {
+                    
                         if (weath == "spring") {
                             fill("green")
                         }
@@ -36,7 +42,7 @@ function setup() {
                         else if (weath == "autumn") {
                             fill("#ad8002")
                         }
-                        rect(j * side, i * side, side, side);
+                        rect(x * side, y * side, side, side);
                     }
                     else if (matrix[y][x] == 0) {
                         fill("#acacac");
@@ -47,7 +53,7 @@ function setup() {
                     else if (matrix[y][x] == 3) {
                         fill("Blue");
                     }
-                    else if (matrix[y][x] == 5) {
+                    else if (matrix[y][x] == 4) {
                         fill("Red");
                     }
 
@@ -58,4 +64,4 @@ function setup() {
             }
         }
     }
-}
+

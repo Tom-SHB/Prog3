@@ -31,35 +31,10 @@ module.exports = class Demon extends NewCord{
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 4;
-            demon.push(new Demon(newX, newY));
+            demonarr.push(new Demon(newX, newY));
             this.energy = 10;
         }
-    }
-    mul2() {
-        var found = this.chooseCell(0);
-        var newCell = random(found);
-
-        if (newCell && this.energy >= 12) {
-            var nX = newCell[0];
-            var nY = newCell[1];
-            matrix[nY][nX] = 4;
-            demon.push(new Demon(nX, nY));
-            this.energy = 10;
-        }
-    }
-    mul3() {
-        var found = this.chooseCell(0);
-        var newCell = random(found);
-
-        if (newCell && this.energy >= 12) {
-            var neX = newCell[0];
-            var neY = newCell[1];
-            matrix[neY][neX] = 4;
-            demon.push(new Demon(neX, neY));
-            this.energy = 10;
-        }
-    }
-    
+    }   
     move() {
         var found = this.chooseCell(0);
         var newCell = random(found);
@@ -82,7 +57,7 @@ module.exports = class Demon extends NewCord{
     }
 
     eat() {
-        var found = this.chooseCell(1);
+        var found = this.chooseCell(1,2,3);
         var newCell = random(found);
         if (newCell) {
             var newX = newCell[0];
@@ -109,68 +84,11 @@ module.exports = class Demon extends NewCord{
             this.move();
         }
     }
-    eat2() {
-        var found = this.chooseCell(2);
-        var newCell2 = random(found);
-        if (newCell2) {
-            var nX = newCell2[0];
-            var nY = newCell2[1];
-            matrix[nY][nX] = 4;
-            matrix[this.y][this.x] = 0;
 
-            this.x = nX;
-            this.y = nY;
-            this.energy++;
-
-            for (var i in grassArr) {
-                if (nX == grassArr[i].x && nY == grassArr[i].y) {
-                    grassArr.splice(i, 1);
-                    break;
-            }
-        }
-            if (this.energy >= 30) {
-                this.mul2();
-            }
-        }
-
-        else {
-            this.move();
-        }
-    }
-    eat3() {
-        var found = this.chooseCell(3);
-        var newCell3 = random(found);
-        if (newCell3) {
-            var neX = newCell3[0];
-            var neY = newCell3[1];
-            matrix[neY][neX] = 4;
-            matrix[this.y][this.x] = 0;
-
-            this.x = neX;
-            this.y = neY;
-            this.energy++;
-
-            for (var i in grassArr) {
-                if (neX == grassArr[i].x && neY == grassArr[i].y) {
-                    grassArr.splice(i, 1);
-                    break;
-            }
-        }
-            if (this.energy >= 30) {
-                this.mul3();
-            }
-        }
-
-        else {
-            this.move();
-        }
-    }
-    
-    
     die() {
-        for (var i in demon) {
-            if (this.x == demon[i].x && this.y == demon[i].y) {
-                demon.splice(i, 1);
+        for (var i in demonarr) {
+            if (this.x == demonarr[i].x && this.y == demonarr[i].y) {
+                demonarr.splice(i, 1);
                 break;
             }
         }
